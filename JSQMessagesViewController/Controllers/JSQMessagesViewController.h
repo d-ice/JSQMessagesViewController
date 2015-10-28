@@ -268,4 +268,11 @@
  */
 - (void)scrollToBottomAnimated:(BOOL)animated;
 
+
+/**
+ *  NSLayoutConstraint to super view
+ */
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectViewTopConstraint;
+
 @end
