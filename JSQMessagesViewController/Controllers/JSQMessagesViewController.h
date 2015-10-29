@@ -275,4 +275,10 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectViewTopConstraint;
 
+
+/**
+ *  is show drop downMenuView
+ */
+@property (nonatomic, assign) BOOL hidenDropDownMenueView;
+
 @end

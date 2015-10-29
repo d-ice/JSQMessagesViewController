@@ -26,6 +26,7 @@
  *  of the toolbar content view.
  */
 FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault;
+FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarDropDownMnueViewHeightDefault;
 
 /**
  *  A `JSQMessagesToolbarContentView` represents the content displayed in a `JSQMessagesInputToolbar`.
@@ -102,6 +103,11 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
 @property (assign, nonatomic) CGFloat rightContentPadding;
 
 /**
+ *  the default height is 80
+ */
+@property (assign, nonatomic) CGFloat dropDownMenuViewHeight;
+
+/**
  *  The container view for the rightBarButtonItem.
  *
  *  @discussion 
@@ -110,6 +116,9 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
  *  in your `JSQMessagesViewController` subclass.
  */
 @property (weak, nonatomic, readonly) UIView *rightBarButtonContainerView;
+
+
+@property (nonatomic, assign) BOOL hideDropDownMenuView;
 
 #pragma mark - Class methods
 
@@ -120,5 +129,6 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
  *  initialization or the nib file could not be located.
  */
 + (UINib *)nib;
+
 
 @end

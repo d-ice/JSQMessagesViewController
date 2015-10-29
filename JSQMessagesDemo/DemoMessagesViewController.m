@@ -35,6 +35,8 @@
 {
     [super viewDidLoad];
     
+    
+    self.inputToolbar.contentView.dropDownMenuViewHeight  = 200;
     self.title = @"JSQMessages";
     
     /**
@@ -44,6 +46,11 @@
     self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
     
     self.inputToolbar.contentView.textView.pasteDelegate = self;
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 50, [[UIApplication sharedApplication] keyWindow].bounds.size.width, 100)];
+    view.backgroundColor = [UIColor blueColor];
+    
+    //[self.inputToolbar.contentView addSubview:view];
     
     /**
      *  Load up our fake data for the demo
@@ -323,6 +330,10 @@
 
 - (void)didPressAccessoryButton:(UIButton *)sender
 {
+    static BOOL isHiden = NO;
+    isHiden = !isHiden;
+    self.hidenDropDownMenueView = isHiden;
+    return;
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"

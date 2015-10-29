@@ -1058,4 +1058,20 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     }
 }
 
+#pragma mark DropDownView 
+
+- (void)setHidenDropDownMenueView:(BOOL)hidenDropDownMenueView {
+    CGFloat toolBarHeight = 0.0f;
+    if (hidenDropDownMenueView) {
+        toolBarHeight = self.inputToolbar.preferredDefaultHeight;
+    }
+    else {
+        toolBarHeight = self.inputToolbar.preferredDefaultHeight + self.inputToolbar.contentView.dropDownMenuViewHeight;
+    
+    }
+    self.toolbarHeightConstraint.constant = toolBarHeight;
+    self.inputToolbar.contentView.hideDropDownMenuView = hidenDropDownMenueView;
+    
+}
+
 @end

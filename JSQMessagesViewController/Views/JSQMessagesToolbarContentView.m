@@ -22,6 +22,7 @@
 
 const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
 
+const CGFloat kJSQMessagesToolbarDropDownMnueViewHeightDefault = 80.0f;
 
 @interface JSQMessagesToolbarContentView ()
 
@@ -36,6 +37,10 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftHorizontalSpacingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightHorizontalSpacingConstraint;
 
+@property (weak, nonatomic) IBOutlet UIView *dropDownMenuView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dropDownMenuViewHeightConstraint;
+
+@property (assign, nonatomic) CGFloat setDownMenuViewHeight;
 @end
 
 
@@ -60,7 +65,8 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
 
     self.leftHorizontalSpacingConstraint.constant = kJSQMessagesToolbarContentViewHorizontalSpacingDefault;
     self.rightHorizontalSpacingConstraint.constant = kJSQMessagesToolbarContentViewHorizontalSpacingDefault;
-
+    self.dropDownMenuViewHeightConstraint.constant = 0;
+    self.dropDownMenuViewHeight = kJSQMessagesToolbarDropDownMnueViewHeightDefault;
     self.backgroundColor = [UIColor clearColor];
 }
 
@@ -71,6 +77,7 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
     _rightBarButtonItem = nil;
     _leftBarButtonContainerView = nil;
     _rightBarButtonContainerView = nil;
+    _dropDownMenuView = nil;
 }
 
 #pragma mark - Setters
@@ -80,6 +87,7 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
     [super setBackgroundColor:backgroundColor];
     self.leftBarButtonContainerView.backgroundColor = backgroundColor;
     self.rightBarButtonContainerView.backgroundColor = backgroundColor;
+    self.dropDownMenuView.backgroundColor = backgroundColor;
 }
 
 - (void)setLeftBarButtonItem:(UIButton *)leftBarButtonItem
@@ -168,6 +176,18 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
     [self setNeedsUpdateConstraints];
 }
 
+- (void)setHideDropDownMenuView:(BOOL)hideDropDownMenuView {
+    if (hideDropDownMenuView) {
+        self.dropDownMenuViewHeightConstraint.constant = 0;
+    }
+    else {
+        self.dropDownMenuViewHeightConstraint.constant = self.dropDownMenuViewHeight;
+    }
+    [self needsUpdateConstraints];
+}
+
+
+
 #pragma mark - Getters
 
 - (CGFloat)leftBarButtonItemWidth
@@ -189,6 +209,12 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
 {
     return self.leftHorizontalSpacingConstraint.constant;
 }
+
+- (BOOL)hideDropDownMenuView {
+    return (self.dropDownMenuViewHeightConstraint.constant > 0);
+}
+
+
 
 #pragma mark - UIView overrides
 
