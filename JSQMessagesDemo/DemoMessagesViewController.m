@@ -35,7 +35,9 @@
 {
     [super viewDidLoad];
     
-    
+    self.collectionView.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    self.collectionView.collectionViewLayout.messageBubbleTextViewFrameInsets = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
+    self.collectionView.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(13.0, 15.0f, 10.0f, 14.0f);
     self.inputToolbar.contentView.dropDownMenuViewHeight  = 200;
     self.title = @"JSQMessages";
     
@@ -61,14 +63,7 @@
     /**
      *  You can set custom avatar sizes
      */
-    if (![NSUserDefaults incomingAvatarSetting]) {
-        self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-    }
-    
-    if (![NSUserDefaults outgoingAvatarSetting]) {
-        self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    }
-    
+
     self.showLoadEarlierMessagesHeader = YES;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage jsq_defaultTypingIndicatorImage]
@@ -79,6 +74,9 @@
     /**
      *  Register custom menu actions for cells.
      */
+    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeMake(44, 44);
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeMake(44, 44);
+    
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(customAction:)];
     [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action"
                                                                                       action:@selector(customAction:)] ];
@@ -526,8 +524,9 @@
             cell.textView.textColor = [UIColor blackColor];
         }
         else {
-            cell.textView.textColor = [UIColor whiteColor];
+            cell.textView.textColor = [UIColor blackColor];
         }
+        cell.textView.backgroundColor = [UIColor redColor];
         
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
