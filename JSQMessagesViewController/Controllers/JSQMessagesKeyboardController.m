@@ -268,6 +268,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
     [self jsq_setKeyboardViewHidden:YES];
     [self jsq_removeKeyboardFrameObserver];
     [self.textView resignFirstResponder];
+    
 }
 
 #pragma mark - Key-value observing
@@ -312,87 +313,90 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 - (void)jsq_handlePanGestureRecognizer:(UIPanGestureRecognizer *)pan
 {
-    CGPoint touch = [pan locationInView:self.contextView.window];
-
-    //  system keyboard is added to a new UIWindow, need to operate in window coordinates
-    //  also, keyboard always slides from bottom of screen, not the bottom of a view
-    CGFloat contextViewWindowHeight = CGRectGetHeight(self.contextView.window.frame);
-
-    if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
-        //  handle iOS 7 bug when rotating to landscape
-        if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-            contextViewWindowHeight = CGRectGetWidth(self.contextView.window.frame);
-        }
-    }
-
-    CGFloat keyboardViewHeight = CGRectGetHeight(self.keyboardView.frame);
-
-    CGFloat dragThresholdY = (contextViewWindowHeight - keyboardViewHeight - self.keyboardTriggerPoint.y);
-
-    CGRect newKeyboardViewFrame = self.keyboardView.frame;
-
-    BOOL userIsDraggingNearThresholdForDismissing = (touch.y > dragThresholdY);
-
-    self.keyboardView.userInteractionEnabled = !userIsDraggingNearThresholdForDismissing;
-
-    switch (pan.state) {
-        case UIGestureRecognizerStateChanged:
-        {
-            newKeyboardViewFrame.origin.y = touch.y + self.keyboardTriggerPoint.y;
-
-            //  bound frame between bottom of view and height of keyboard
-            newKeyboardViewFrame.origin.y = MIN(newKeyboardViewFrame.origin.y, contextViewWindowHeight);
-            newKeyboardViewFrame.origin.y = MAX(newKeyboardViewFrame.origin.y, contextViewWindowHeight - keyboardViewHeight);
-
-            if (CGRectGetMinY(newKeyboardViewFrame) == CGRectGetMinY(self.keyboardView.frame)) {
-                return;
-            }
-
-            [UIView animateWithDuration:0.0
-                                  delay:0.0
-                                options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
-                             animations:^{
-                                 self.keyboardView.frame = newKeyboardViewFrame;
-                             }
-                             completion:nil];
-        }
-            break;
-
-        case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled:
-        case UIGestureRecognizerStateFailed:
-        {
-            BOOL keyboardViewIsHidden = (CGRectGetMinY(self.keyboardView.frame) >= contextViewWindowHeight);
-            if (keyboardViewIsHidden) {
-                [self jsq_resetKeyboardAndTextView];
-                return;
-            }
-
-            CGPoint velocity = [pan velocityInView:self.contextView];
-            BOOL userIsScrollingDown = (velocity.y > 0.0f);
-            BOOL shouldHide = (userIsScrollingDown && userIsDraggingNearThresholdForDismissing);
-
-            newKeyboardViewFrame.origin.y = shouldHide ? contextViewWindowHeight : (contextViewWindowHeight - keyboardViewHeight);
-
-            [UIView animateWithDuration:0.25
-                                  delay:0.0
-                                options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseOut
-                             animations:^{
-                                 self.keyboardView.frame = newKeyboardViewFrame;
-                             }
-                             completion:^(BOOL finished) {
-                                 self.keyboardView.userInteractionEnabled = !shouldHide;
-
-                                 if (shouldHide) {
-                                     [self jsq_resetKeyboardAndTextView];
-                                 }
-                             }];
-        }
-            break;
-
-        default:
-            break;
-    }
+    [self jsq_resetKeyboardAndTextView];
+    return;
+//    CGPoint touch = [pan locationInView:self.contextView.window];
+//
+//    //  system keyboard is added to a new UIWindow, need to operate in window coordinates
+//    //  also, keyboard always slides from bottom of screen, not the bottom of a view
+//    CGFloat contextViewWindowHeight = CGRectGetHeight(self.contextView.window.frame);
+//
+//    if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
+//        //  handle iOS 7 bug when rotating to landscape
+//        if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+//            contextViewWindowHeight = CGRectGetWidth(self.contextView.window.frame);
+//        }
+//    }
+//
+//    CGFloat keyboardViewHeight = CGRectGetHeight(self.keyboardView.frame);
+//
+//    CGFloat dragThresholdY = (contextViewWindowHeight - keyboardViewHeight - self.keyboardTriggerPoint.y);
+//
+//    CGRect newKeyboardViewFrame = self.keyboardView.frame;
+//
+//    
+//    BOOL userIsDraggingNearThresholdForDismissing = (touch.y > dragThresholdY);
+//
+//    self.keyboardView.userInteractionEnabled = !userIsDraggingNearThresholdForDismissing;
+//
+//    switch (pan.state) {
+//        case UIGestureRecognizerStateChanged:
+//        {
+//            newKeyboardViewFrame.origin.y = touch.y + self.keyboardTriggerPoint.y;
+//
+//            //  bound frame between bottom of view and height of keyboard
+//            newKeyboardViewFrame.origin.y = MIN(newKeyboardViewFrame.origin.y, contextViewWindowHeight);
+//            newKeyboardViewFrame.origin.y = MAX(newKeyboardViewFrame.origin.y, contextViewWindowHeight - keyboardViewHeight);
+//
+//            if (CGRectGetMinY(newKeyboardViewFrame) == CGRectGetMinY(self.keyboardView.frame)) {
+//                return;
+//            }
+//
+//            [UIView animateWithDuration:0.0
+//                                  delay:0.0
+//                                options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
+//                             animations:^{
+//                                 self.keyboardView.frame = newKeyboardViewFrame;
+//                             }
+//                             completion:nil];
+//        }
+//            break;
+//
+//        case UIGestureRecognizerStateEnded:
+//        case UIGestureRecognizerStateCancelled:
+//        case UIGestureRecognizerStateFailed:
+//        {
+//            BOOL keyboardViewIsHidden = (CGRectGetMinY(self.keyboardView.frame) >= contextViewWindowHeight);
+//            if (keyboardViewIsHidden) {
+//                [self jsq_resetKeyboardAndTextView];
+//                return;
+//            }
+//
+//            CGPoint velocity = [pan velocityInView:self.contextView];
+//            BOOL userIsScrollingDown = (velocity.y > 0.0f);
+//            BOOL shouldHide = (userIsScrollingDown && userIsDraggingNearThresholdForDismissing);
+//
+//            newKeyboardViewFrame.origin.y = shouldHide ? contextViewWindowHeight : (contextViewWindowHeight - keyboardViewHeight);
+//
+//            [UIView animateWithDuration:0.25
+//                                  delay:0.0
+//                                options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseOut
+//                             animations:^{
+//                                 self.keyboardView.frame = newKeyboardViewFrame;
+//                             }
+//                             completion:^(BOOL finished) {
+//                                 self.keyboardView.userInteractionEnabled = !shouldHide;
+//
+//                                 if (shouldHide) {
+//                                     [self jsq_resetKeyboardAndTextView];
+//                                 }
+//                             }];
+//        }
+//            break;
+//
+//        default:
+//            break;
+//    }
 }
 
 @end
