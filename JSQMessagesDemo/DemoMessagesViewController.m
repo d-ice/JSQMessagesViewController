@@ -35,10 +35,10 @@
 {
     [super viewDidLoad];
     
-    self.collectionView.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    //self.collectionView.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     self.collectionView.collectionViewLayout.messageBubbleTextViewFrameInsets = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
     self.collectionView.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(13.0, 15.0f, 10.0f, 14.0f);
-    self.inputToolbar.contentView.dropDownMenuViewHeight  = 200;
+   //self.inputToolbar.contentView.dropDownMenuViewHeight  = 200;
     self.title = @"JSQMessages";
     
     /**
@@ -453,10 +453,25 @@
      */
     if (indexPath.item % 3 == 0) {
         JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
-        return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
+//        return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
+        return [self test];
     }
     
     return nil;
+}
+
+- (NSAttributedString *)test {
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    NSDictionary * _dateTextAttributes = @{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12.0f],
+                             NSForegroundColorAttributeName : [UIColor redColor],
+                             NSParagraphStyleAttributeName : paragraphStyle,
+                                            NSBackgroundColorAttributeName:[UIColor grayColor]};
+    
+    NSMutableAttributedString *timestamp = [[NSMutableAttributedString alloc]
+                                            initWithString:@"14:23"
+                                            attributes:_dateTextAttributes];
+    return [[NSAttributedString alloc] initWithAttributedString:timestamp];;
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -501,6 +516,7 @@
      *  Override point for customizing cells
      */
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+     cell.cellTopLabel.textAlignment = NSTextAlignmentCenter;
     
     /**
      *  Configure almost *anything* on the cell
@@ -520,14 +536,8 @@
     
     if (!msg.isMediaMessage) {
         
-        if ([msg.senderId isEqualToString:self.senderId]) {
-            cell.textView.textColor = [UIColor blackColor];
-        }
-        else {
-            cell.textView.textColor = [UIColor blackColor];
-        }
+        cell.textView.textColor = [UIColor blackColor];
         cell.textView.backgroundColor = [UIColor redColor];
-        
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
