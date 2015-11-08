@@ -78,7 +78,7 @@
 
 #pragma mark - JSQMessageMediaData protocol
 
-- (UIView *)mediaView
+- (UIView *)mediaViewWithBkgImage:(UIImage *)bkgImage
 {
     NSAssert(NO, @"Error! required method not implemented in subclass. Need to implement %s", __PRETTY_FUNCTION__);
     return nil;
@@ -141,7 +141,7 @@
 
 - (id)debugQuickLookObject
 {
-    return [self mediaView] ?: [self mediaPlaceholderView];
+    return [self mediaViewWithBkgImage:nil] ?: [self mediaPlaceholderView];
 }
 
 #pragma mark - NSCoding

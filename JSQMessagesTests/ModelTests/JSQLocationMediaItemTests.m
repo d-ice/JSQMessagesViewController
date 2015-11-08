@@ -46,7 +46,7 @@
     
     XCTAssertTrue(!CGSizeEqualToSize([item mediaViewDisplaySize], CGSizeZero));
     XCTAssertNotNil([item mediaPlaceholderView]);
-    XCTAssertNil([item mediaView], @"Media view should be nil if location is nil");
+    XCTAssertNil([item mediaViewWithBkgImage:nil], @"Media view should be nil if location is nil");
     
     XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     
@@ -58,7 +58,7 @@
         XCTAssertNil(error, @"Expectation should not error");
     }];
     
-    XCTAssertNotNil([item mediaView], @"Media view should NOT be nil once item has media data");
+    XCTAssertNotNil([item mediaViewWithBkgImage:nil], @"Media view should NOT be nil once item has media data");
 }
 
 @end

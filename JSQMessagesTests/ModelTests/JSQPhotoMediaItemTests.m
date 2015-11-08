@@ -66,11 +66,11 @@
     
     XCTAssertTrue(!CGSizeEqualToSize([item mediaViewDisplaySize], CGSizeZero));
     XCTAssertNotNil([item mediaPlaceholderView]);
-    XCTAssertNil([item mediaView], @"Media view should be nil if image is nil");
+    XCTAssertNil([item mediaViewWithBkgImage:nil], @"Media view should be nil if image is nil");
     
     item.image = [UIImage imageNamed:@"demo_avatar_jobs"];
     
-    XCTAssertNotNil([item mediaView], @"Media view should NOT be nil once item has media data");
+    XCTAssertNotNil([item mediaViewWithBkgImage:nil], @"Media view should NOT be nil once item has media data");
 }
 
 @end

@@ -66,12 +66,12 @@
     
     XCTAssertTrue(!CGSizeEqualToSize([item mediaViewDisplaySize], CGSizeZero));
     XCTAssertNotNil([item mediaPlaceholderView]);
-    XCTAssertNil([item mediaView], @"Media view should be nil if fileURL is nil, and readyToPlay is NO");
+    XCTAssertNil([item mediaViewWithBkgImage:nil], @"Media view should be nil if fileURL is nil, and readyToPlay is NO");
     
     item.fileURL = [NSURL URLWithString:@"file://"];
     item.isReadyToPlay = YES;
     
-    XCTAssertNotNil([item mediaView], @"Media view should NOT be nil once item has media data");
+    XCTAssertNotNil([item mediaViewWithBkgImage:nil], @"Media view should NOT be nil once item has media data");
 }
 
 @end
