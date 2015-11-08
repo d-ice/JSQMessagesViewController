@@ -36,7 +36,7 @@
     [super viewDidLoad];
     
     //self.collectionView.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
-    self.collectionView.collectionViewLayout.messageBubbleTextViewFrameInsets = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
+//    self.collectionView.collectionViewLayout.messageBubbleTextViewFrameInsets = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
     self.collectionView.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(13.0, 15.0f, 10.0f, 14.0f);
    //self.inputToolbar.contentView.dropDownMenuViewHeight  = 200;
     self.title = @"JSQMessages";
